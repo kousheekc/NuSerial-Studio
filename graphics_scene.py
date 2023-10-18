@@ -8,7 +8,7 @@ class GraphicsScene(QGraphicsScene):
         super().__init__()
 
         self._grid_size = 20
-        self._grid_squares = 5
+        self._grid_squares = 10
         self._color_bg = QColor("#353535")
         self._color_light = QColor("#2f2f2f")
         self._color_dark = QColor("#292929")

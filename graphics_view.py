@@ -7,11 +7,8 @@ class GraphicsView(QGraphicsView):
     def __init__(self, scene):
         super().__init__()
 
-        self.zoomInFactor = 1.25
-        self.zoomClamp = True
-        self.zoom = 10
-        self.zoomStep = 1
-        self.zoomRange = [0, 10]
+        self.min_zoom = 0.1
+        self.max_zoom = 4.0
 
         self.scene = scene
         self.initUI()
@@ -33,22 +30,18 @@ class GraphicsView(QGraphicsView):
         super().mouseReleaseEvent(event)
 
     def wheelEvent(self, event: QWheelEvent):
-        zoomOutFactor = 1 / self.zoomInFactor
+        zoom_factor = 1.15 ** (event.angleDelta().y() / 120)
+        current_zoom = self.transform().m22()
+        new_zoom = current_zoom * zoom_factor
 
-        if event.angleDelta().y() > 0:
-            zoomFactor = self.zoomInFactor
-            self.zoom += self.zoomStep
-        else:
-            zoomFactor = zoomOutFactor
-            self.zoom -= self.zoomStep
-
-
-        clamped = False
-        if self.zoom < self.zoomRange[0]: self.zoom, clamped = self.zoomRange[0], True
-        if self.zoom > self.zoomRange[1]: self.zoom, clamped = self.zoomRange[1], True
-
-        if not clamped or self.zoomClamp is False:
-            self.scale(zoomFactor, zoomFactor)
+        if self.min_zoom <= new_zoom <= self.max_zoom:
+            self.scale(zoom_factor, zoom_factor)
+        elif new_zoom < self.min_zoom:
+            self.resetTransform()
+            self.scale(self.min_zoom, self.min_zoom)
+        elif new_zoom > self.max_zoom:
+            self.resetTransform()
+            self.scale(self.max_zoom, self.max_zoom)
 
 
 

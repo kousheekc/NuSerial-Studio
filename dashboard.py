@@ -11,8 +11,6 @@ class Dashboard(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.setGeometry(200, 200, 800, 600)
-
         self.layout = QVBoxLayout()
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(self.layout)
@@ -23,7 +21,9 @@ class Dashboard(QWidget):
         self.layout.addWidget(self.view)
 
         self.setWindowTitle("NuSerial Studio")
-        self.show()
+        
+        self.setMinimumSize(800, 600)
+        self.showMaximized()
 
         self.addDebugContent()
 
