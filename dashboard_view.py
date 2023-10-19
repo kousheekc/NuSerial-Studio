@@ -1,9 +1,8 @@
-from PyQt5 import QtGui
 from PyQt5.QtWidgets import QGraphicsView
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPainter
 
-class GraphicsView(QGraphicsView):
+class DashboardView(QGraphicsView):
     def __init__(self, scene):
         super().__init__()
 
@@ -29,7 +28,7 @@ class GraphicsView(QGraphicsView):
         self.setDragMode(QGraphicsView.NoDrag)
         super().mouseReleaseEvent(event)
 
-    def wheelEvent(self, event: QWheelEvent):
+    def wheelEvent(self, event):
         zoom_factor = 1.15 ** (event.angleDelta().y() / 120)
         current_zoom = self.transform().m22()
         new_zoom = current_zoom * zoom_factor

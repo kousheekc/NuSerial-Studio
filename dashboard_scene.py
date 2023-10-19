@@ -1,11 +1,13 @@
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
+from PyQt5.QtWidgets import QGraphicsScene
+from PyQt5.QtCore import QLine
+from PyQt5.QtGui import QColor, QPen
 import math
 
-class GraphicsScene(QGraphicsScene):
+class DashboardScene(QGraphicsScene):
     def __init__(self):
         super().__init__()
+
+        self.widgets = []
 
         self._grid_size = 20
         self._grid_squares = 10
@@ -22,6 +24,12 @@ class GraphicsScene(QGraphicsScene):
 
         self.scene_width, self.scene_height = 64000, 64000
         self.setSceneRect(-self.scene_width//2, -self.scene_height//2, self.scene_width, self.scene_height)
+
+    def add_widget(self, widget):
+        self.widgets.append(widget)
+
+    def remove_widget(self, widget):
+        self.widgets.remove(widget)
 
     def drawBackground(self, painter, rect):
         super().drawBackground(painter, rect)
